@@ -3,7 +3,7 @@
 /**
  * Plugin Name:       TP Social Share
  * Description:       Display selected social sharing buttons in posts and/or on pages.
- * Version:           0.1.0
+ * Version:           0.1.1
  * Author:            Tatiane Pires
  * Author URI:        https://tatianepires.com.br
  * License:           GPL-2.0+
@@ -14,7 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 	die;
 }
 
-define( 'TP_SOCIAL_SHARE_VERSION', '0.1.0' );
+define( 'TP_SOCIAL_SHARE_VERSION', '0.1.1' );
 
 require plugin_dir_path( __FILE__ ) . 'includes/class-tp-social-share.php';
 
