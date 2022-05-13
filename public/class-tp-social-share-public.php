@@ -40,9 +40,18 @@ class Tp_Social_Share_Public {
 
 		add_action( 'wp_enqueue_scripts', array($this, 'enqueue_styles') );
 
+		add_shortcode( 'tp_social_share', array($this, 'tp_social_share') );
+
 	}
 
-	// TODO: he plugin should also enable a shortcode to include the sharing bar inside a post content
+	function tp_social_share( $atts ){
+
+		$post_id = get_the_ID();
+		$permalink = get_the_permalink($post_id);
+		$buttons = $this->generate_buttons($permalink);
+
+		return $buttons;
+	}
 
 	public function add_sharing_buttons_to_content( $content ) {
 
