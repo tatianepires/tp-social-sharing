@@ -2,7 +2,6 @@
 
 use Carbon_Fields\Container;
 use Carbon_Fields\Field;
-use Carbon_Fields\Field\Text_Field;
 
 class Tp_Social_Share_Admin {
 
@@ -28,6 +27,7 @@ class Tp_Social_Share_Admin {
 		);
 
 		Container::make( 'theme_options', __( 'TP Social Share' ) )
+			->set_icon( 'dashicons-share' )
 			->add_fields( array(
 				// Where to display (content)
 				Field::make( 'html', 'tp_social_share_content_display_title' )
