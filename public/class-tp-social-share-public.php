@@ -49,7 +49,8 @@ class Tp_Social_Share_Public {
 		$post_id = get_the_ID();
 		$post_type = get_post_type($post_id);
 		$is_custom_post_type = $this->is_custom_post_type($post_type);
-		$buttons = $this->generate_buttons();
+		$permalink = get_the_permalink($post_id);
+		$buttons = $this->generate_buttons($permalink);
 		$display_buttons_before = ( $this->display_buttons($post_type, $is_custom_post_type) && $this->options['display_below_title'] == 'yes');
 		$display_buttons_after = ( $this->display_buttons($post_type, $is_custom_post_type) && $this->options['display_after_content'] == 'yes');
 
@@ -63,15 +64,17 @@ class Tp_Social_Share_Public {
 	public function add_sharing_buttons_inside_featured_image( $html ) {
 
 		$post_id = get_the_ID();
+		$permalink = get_the_permalink($post_id);
 		$has_featured_image = has_post_thumbnail($post_id);
-		$buttons = $this->generate_buttons();
+		$featured_image_url = ($has_featured_image) ? get_the_post_thumbnail_url($post_id) : '';
+		$buttons = $this->generate_buttons($permalink, $featured_image_url);
 		$display_buttons = ( $this->options['display_inside_featured_image'] == 'yes' );
 		$inside_featured_image = ($has_featured_image && $display_buttons) ? $buttons : '';
 		return $html . $inside_featured_image;
 
 	}
 
-	private function generate_buttons() {
+	private function generate_buttons($permalink, $image = null) {
 
 		$buttons = array();
 		$button_size = $this->options['button_size'];
@@ -82,14 +85,20 @@ class Tp_Social_Share_Public {
 			? 'class="tp_social_share__buttons_container--float_left"'
 			: 'class="tp_social_share__buttons_container"';
 
-		// TODO: find actual sharing links
+		$encoded_url = urlencode($permalink);
+
 		$sharing_links = array(
-			'facebook' => 'https://facebook.com',
-			'linkedin' => 'https://linkedin.com',
-			'pinterest' => 'https://pinterest.com',
-			'twitter' => 'https://twitter.com',
-			'whatsapp' => 'https://whatsapp.com',
+			'facebook' => sprintf('https://www.facebook.com/sharer/sharer.php?u=%s', $encoded_url),
+			'linkedin' => sprintf('https://www.linkedin.com/cws/share?url=%s', $encoded_url),
+			'pinterest' => sprintf('https://pinterest.com/pin/create/button/?url=%s', $encoded_url),
+			'twitter' => sprintf('https://twitter.com/intent/tweet?url=%s', $encoded_url),
+			'whatsapp' => sprintf('whatsapp://send?text=%s', $encoded_url),
 		);
+
+		if ($image != null) {
+			$encoded_image_url = urlencode($image);
+			$sharing_links['pinterest'] .= '&media=' . $encoded_image_url;
+		}
 
 		$svg_files_url = array(
 			'facebook' => sprintf('%spublic/svg/icon_facebook.svg', $this->plugin_dir_path),
@@ -102,7 +111,7 @@ class Tp_Social_Share_Public {
 		foreach ($this->options['social_networks'] as $network) {
 			$svg_icon = file_get_contents($svg_files_url[$network], FILE_USE_INCLUDE_PATH);
 
-			$buttons[] = sprintf('<a href="%s" class="svg-icons %s %s" %s>%s</a>',
+			$buttons[] = sprintf('<a href="%s" class="svg-icons %s %s" %s target="_blank">%s</a>',
 								$sharing_links[$network],
 								$network,
 								$button_size,

@@ -1,3 +1,5 @@
+$breakpoint-tablet: 768px
+
 .tp_social_share
   &__buttons_container
     &--float_left
@@ -26,3 +28,8 @@
         fill: #1D9BF0
       &.whatsapp
         fill: #075E54
+
+    @media (min-width: $breakpoint-tablet)
+      .svg-icons
+        &.whatsapp
+          display: none

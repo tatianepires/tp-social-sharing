@@ -18,7 +18,7 @@ class Tp_Social_Share {
 		if ( defined( 'TP_SOCIAL_SHARE_VERSION' ) ) {
 			$this->version = TP_SOCIAL_SHARE_VERSION;
 		} else {
-			$this->version = '0.1.2';
+			$this->version = '0.1.4';
 		}
 		$this->plugin_name = 'tp-social-share';
 		$this->plugin_nice_name = 'TP Social Share';
