@@ -35,9 +35,9 @@ class Tp_Social_Share {
 
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-tp-social-share-public.php';
 
-		$admin = new Tp_Social_Share_Admin($this->plugin_name, $this->plugin_nice_name, $this->version);
+		$this->admin = new Tp_Social_Share_Admin($this->plugin_name, $this->plugin_nice_name, $this->version);
 
-		$public = new Tp_Social_Share_Public($this->plugin_name, $this->plugin_nice_name, $this->version);
+		$this->public = new Tp_Social_Share_Public($this->plugin_name, $this->plugin_nice_name, $this->version);
 
 	}
 
